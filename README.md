@@ -35,7 +35,7 @@ Todo el direccionamiento IP utilizado en esta práctica está basado en la matr�
 
 La topología implementada consta de un FortiGate como punto central de control, con tres interfaces físicas: una hacia Internet (WAN) y dos hacia las redes internas (LAN de usuarios y LAN de servidores).
 
-![Topología de red](<img width="429" height="333" alt="1  Topología" src="https://github.com/user-attachments/assets/89671125-1de7-4e3f-9671-3540ce5245d3" />
+![Topología de red](<img width="429" height="333" alt="1  Topología" src="https://github.com/user-attachments/assets/4b97d305-9ebd-4be6-b1ad-791b0522a439" />
 )
 
 **Descripción de la topología:**
