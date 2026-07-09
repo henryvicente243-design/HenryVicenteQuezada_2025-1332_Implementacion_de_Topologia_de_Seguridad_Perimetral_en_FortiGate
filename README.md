@@ -2,7 +2,7 @@
 
 **Autor:** Henry Vicente Quezada
 **Matrícula:** 2025-1332
-**Asignatura / Práctica:** Práctica 5 — Configuración de FortiGate
+**Asignatura / Práctica:** Asignacion 2 — Configuración de FortiGate
 **Firmware:** FortiOS v7.4.12
 **Plataforma:** FortiGate VM64 (entorno virtualizado con VMware Workstation)
 
