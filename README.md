@@ -1,4 +1,4 @@
- # Implementación de Topología de Seguridad Perimetral en FortiGate v7.4.12
+ # Implementación de Topología de Seguridad Perimetral en FortiGate - Henry Vicente Quezada 2025-1332
 
 **Autor:** Henry Vicente Quezada
 **Matrícula:** 2025-1332
