@@ -10,7 +10,7 @@
 
 ## Enlace al video demostrativo
 
-📹 **Video de demostración (máx. 8 minutos):** [Ver video](https://youtu.be/shvBOsZEPXs)
+📹 **Video de demostración (máx. 8 minutos):** (https://youtu.be/shvBOsZEPXs)
 
 *El video incluye la demostración del correcto funcionamiento de la topología, 
 mostrando evidencias por GUI, la topología con nombre y matrícula, hora y fecha del sistema.*
