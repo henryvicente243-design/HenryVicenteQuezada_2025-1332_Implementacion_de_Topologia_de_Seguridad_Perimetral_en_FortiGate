@@ -62,7 +62,8 @@ El equipo cliente (Windows 10) recibe direccionamiento dinámico vía DHCP, mien
 | Servidor Windows Server | 192.168.32.3 | /28 | Estática |
 | Gateway de salida a Internet | 192.168.210.2 | /24 | Next-hop de la ruta por defecto |
 
-![Figura 2. Interfaces físicas configuradas en el FortiGate (port1, port2, port3) con sus respectivas direcciones IP.](images/02-interfaces.png)
+ <img width="900" height="480" alt="image" src="https://github.com/user-attachments/assets/a1133df8-4013-45ad-822b-f6072dc2be0f" />
+
 
 ---
 
@@ -81,11 +82,12 @@ Se habilitó el servicio DHCP en la interfaz **port2**, con el fin de asignar di
 - Servidor DNS: mismo que el DNS del sistema
 - Tiempo de concesión (lease): 604800 segundos (7 días)
 
-![Figura 3. Configuración del servidor DHCP en port2.](images/03-dhcp-config.png)
+ <img width="707" height="351" alt="image" src="https://github.com/user-attachments/assets/ac240244-4566-4784-8093-e9399a16749c" />
+
 
 El cliente recibió la IP `192.168.13.3`, con gateway `192.168.13.2` y servidor DHCP `192.168.13.2`, confirmando el correcto funcionamiento del servicio (verificado mediante `ipconfig /all` desde el cliente Windows 10).
 
-![Figura 4. Verificación de IP asignada por DHCP en el cliente Windows 10 (ipconfig /all).](images/04-dhcp-cliente.png)
+ <img width="715" height="468" alt="image" src="https://github.com/user-attachments/assets/f1b7a535-1c90-45b0-839f-36b07067ae7c" />
 
 ---
 
@@ -99,7 +101,7 @@ Se configuró una ruta estática por defecto que dirige todo el tráfico sin des
 - Gateway: `192.168.210.2`
 - Distancia administrativa: 10 (valor por defecto)
 
-![Figura 5. Configuración de la ruta estática por defecto (0.0.0.0/0.0.0.0).](images/05-ruta-default.png)
+ <img width="684" height="367" alt="image" src="https://github.com/user-attachments/assets/aff6ec57-5489-4dd2-8c06-9fa26773be7a" />
 
 ---
 
@@ -113,7 +115,7 @@ Para permitir que los dispositivos con direccionamiento privado de las LANs inte
 - IP Pool: `Use Outgoing Interface Address`
 - Manage source port: Preserve source port
 
-![Figura 6. NAT habilitado en la política de salida a Internet.](images/06-nat.png)
+ <img width="755" height="520" alt="image" src="https://github.com/user-attachments/assets/33660e5b-0bce-4af3-bb2c-fedb4816b98e" />
 
 ---
 
@@ -124,7 +126,8 @@ Se implementaron dos políticas de firewall consecutivas para controlar estricta
 1. Una política que **permite únicamente el servicio HTTP** desde la LAN de usuarios hacia la LAN de servidores.
 2. Una política inmediatamente posterior que **deniega cualquier otro tipo de tráfico** entre ambos segmentos.
 
-![Figura 7. Políticas de firewall: HTTP permitido y todo lo demás denegado, en el orden correcto.](images/07-politicas-http-deny.png)
+<img width="901" height="409" alt="image" src="https://github.com/user-attachments/assets/737ea2ff-1091-4dcd-ad3c-4516926967e8" />
+
 
 El orden de evaluación es crítico en FortiGate, ya que las políticas se procesan de arriba hacia abajo; por ello, la política de aceptación de HTTP se ubicó antes que la política de denegación general.
 
@@ -132,13 +135,13 @@ El orden de evaluación es crítico en FortiGate, ya que las políticas se proce
 
 Se accedió desde el navegador del cliente Windows 10 al sitio web alojado en el servidor (`http://192.168.32.3`), confirmando que el servicio HTTP responde correctamente.
 
-![Figura 8. Acceso HTTP exitoso al servidor web desde el cliente.](images/08-prueba-http-ok.png)
+ <img width="642" height="597" alt="image" src="https://github.com/user-attachments/assets/aedc417d-667c-42c8-a0e2-c8aa69506250" />
 
 **Prueba de funcionamiento — Todo lo demás bloqueado:**
 
 Se ejecutó un `ping` (ICMP) desde el cliente Windows 10 hacia el servidor, confirmando que el tráfico distinto a HTTP es correctamente bloqueado por la política DENY. El resultado `Request timed out` en las cuatro peticiones ICMP, con 100% de pérdida de paquetes, demuestra que la política de restricción funciona como se esperaba.
 
-![Figura 9. Ping bloqueado hacia el servidor (Request timed out, 100% de pérdida).](images/09-prueba-ping-bloqueado.png)
+ <img width="829" height="499" alt="image" src="https://github.com/user-attachments/assets/b531bf46-158a-4373-a6bf-6af639262893" />
 
 ---
 
@@ -146,21 +149,23 @@ Se ejecutó un `ping` (ICMP) desde el cliente Windows 10 hacia el servidor, conf
 
 Se configuró un perfil de **Application Control** llamado `Block-Social-Media`, en el cual se estableció la categoría **Social Media** en modo **Block**. Este perfil se aplicó a la política de salida a Internet (`LAN-Usuarios_a_Internet`).
 
-![Figura 10. Perfil de Application Control con la categoría Social Media bloqueada.](images/10-social-media-perfil.png)
+<img width="832" height="615" alt="image" src="https://github.com/user-attachments/assets/fecab040-baa0-40c5-81a4-e04d7d521337" />
+
 
 **Prueba de funcionamiento:**
 
 Al intentar acceder desde el navegador del cliente a Facebook e Instagram, la conexión es interrumpida por el motor de inspección SSL del FortiGate, evidenciando que el tráfico está siendo interceptado y bloqueado.
 
-![Figura 11. Bloqueo de acceso a Facebook.](images/11-facebook-bloqueado.png)
+ <img width="714" height="671" alt="image" src="https://github.com/user-attachments/assets/ba49e390-84a9-4002-98fb-d06f98e1a641" />
 
-![Figura 12. Bloqueo de acceso a Instagram.](images/12-instagram-bloqueado.png)
+ <img width="681" height="624" alt="image" src="https://github.com/user-attachments/assets/355768dc-bde0-41b4-838e-d8095553316f" />
+
 
 **Evidencia en logs:**
 
 El registro de tráfico (`Forward Traffic`) confirma múltiples eventos de bloqueo (`Deny: UTM Blocked`) para las aplicaciones Facebook e Instagram, mientras que el tráfico correspondiente a servicios permitidos (como Microsoft Portal) continúa siendo aceptado con normalidad.
 
-![Figura 13. Registro de tráfico confirmando el bloqueo de redes sociales.](images/13-social-media-log.png)
+ <img width="621" height="435" alt="image" src="https://github.com/user-attachments/assets/82e280b6-9383-49ee-b9a2-a6cb85745c90" />
 
 ---
 
@@ -170,7 +175,7 @@ Dentro del mismo perfil de Application Control, se agregó una regla de anulaci�
 
 Esta configuración se aplicó sobre la misma política de salida a Internet, garantizando que cualquier intento de establecer una llamada de voz o video mediante WhatsApp sea evaluado contra esta firma específica antes de permitir el tráfico.
 
-![Figura 14. Firma de llamadas de WhatsApp (WhatsApp_VoIP.Call) configurada en modo Block dentro de Application Control.](images/14-whatsapp-perfil.png)
+<img width="583" height="389" alt="image" src="https://github.com/user-attachments/assets/7a0149bd-7ed7-4817-b688-38ef3b2ca456" />
 
 **Prueba de funcionamiento:**
 
@@ -197,7 +202,9 @@ Se configuró un perfil de **Web Filter** llamado `Block-ITLA`, en el cual se ag
 
 Al intentar acceder a `https://itla.edu.do` desde el cliente Windows 10, FortiGate presenta su página de bloqueo nativa, confirmando que la URL fue correctamente identificada y denegada por el filtro configurado.
 
-![Figura 16. Página de bloqueo de FortiGate al acceder a itla.edu.do.](images/16-itla-bloqueado.png)
+ <img width="743" height="600" alt="image" src="https://github.com/user-attachments/assets/1e3075f9-e408-4ae4-8dee-1a7ada076a3e" />
+
+<img width="707" height="642" alt="image" src="https://github.com/user-attachments/assets/f4f61df0-8d22-412a-8d4f-7dfd93f186ef" />
 
 ---
 
@@ -215,13 +222,15 @@ Se creó una política DoS sobre la interfaz `port2`, habilitando y configurando
 - `tcp_src_session` / `tcp_dst_session`
 - `udp_flood` / `udp_scan`
 
-![Figura 17. Política DoS con anomalías de escaneo configuradas en modo Block.](images/17-dos-policy.png)
+ <img width="799" height="557" alt="image" src="https://github.com/user-attachments/assets/d032efbe-4e70-419a-974c-2e1408e1bd9e" />
+
 
 **b) Perfil de Intrusion Prevention System (IPS):**
 
 Se creó un perfil IPS personalizado llamado `Block-Scanners`, en el cual se incluyeron firmas específicas orientadas a la detección de herramientas de escaneo y reconocimiento de vulnerabilidades (Acunetix Web Vulnerability Scanner, Apache Tomcat Remote Exploit Account Scanner, Canvas FTPd Scan, entre otras), todas configuradas en modo **Block**.
 
-![Figura 18. Perfil IPS con firmas de detección de escáneres.](images/18-ips-scanner.png)
+ <img width="740" height="601" alt="image" src="https://github.com/user-attachments/assets/71be608b-a1cd-4442-9343-58c118d10191" />
+
 
 Ambos mecanismos —DoS Policy e IPS— trabajan de forma complementaria: el primero detecta patrones de comportamiento anómalo (múltiples conexiones en un corto periodo de tiempo), mientras que el segundo identifica firmas específicas asociadas a herramientas conocidas de escaneo.
 
@@ -231,7 +240,7 @@ Como validación adicional, se ejecutó un escaneo de puertos con Nmap (`nmap -s
 
 El escaneo, que abarcó los 65535 puertos del servidor, resultó en 65532 puertos reportados como `filtered` por Nmap (sin respuesta), evidencia de que el tráfico fue descartado activamente por las políticas de firewall. De forma complementaria, el log de `Log & Report → Security Events → Anomaly` confirmó que la política DoS detectó el patrón de escaneo mediante la firma `tcp_port_scan`, registrando múltiples eventos de severidad **Critical** originados desde el cliente escaneador, con la acción `clear_session` aplicada por la política `Anti-ScanDetect`. Esto demuestra que ambos mecanismos —segmentación por política y detección de anomalías— funcionan de forma coordinada.
 
-![Figura 19. Registro de eventos en Security Events → Anomaly, confirmando la detección del escaneo de puertos (tcp_port_scan) con severidad Critical y acción clear_session.](images/19-ips-scanner-anomaly.png)
+ <img width="985" height="467" alt="image" src="https://github.com/user-attachments/assets/7215a3e5-3136-42fb-820f-c16be14569bc" />
 
 ---
 
@@ -245,17 +254,19 @@ Se habilitó la funcionalidad de Web Application Firewall desde **Feature Visibi
 - Known Exploits
 - Credit Card Detection
 
-![Figura 20. Perfil de WAF con firmas de protección activadas.](images/20-waf-perfil.png)
+ <img width="719" height="628" alt="image" src="https://github.com/user-attachments/assets/477ed38c-662a-422b-b3c5-a16be33a4561" />
 
 Debido a que el motor de WAF de FortiGate requiere que la política opere en modo de inspección **Proxy-based**, se modificó el modo de inspección de la política `Usuarios_a_Servidores_HTTP`, y se asignó el perfil WAF creado.
 
-![Figura 21. Política en modo Proxy-based con el perfil WAF aplicado.](images/21-waf-politica.png)
+ <img width="695" height="580" alt="image" src="https://github.com/user-attachments/assets/a2cf398b-7a56-46ba-a9ff-e144578e46c7" />
+
 
 **Prueba de funcionamiento — tráfico legítimo:**
 
 Tras aplicar el perfil WAF, se verificó que el sitio web del servidor continúa siendo accesible con normalidad desde el cliente, confirmando que la protección no interfiere con el tráfico legítimo.
 
-![Figura 22. Sitio web funcionando correctamente con WAF activo.](images/22-waf-prueba.png)
+<img width="704" height="622" alt="image" src="https://github.com/user-attachments/assets/0046aac6-741d-45c7-9c2a-d351814de38d" />
+
 
 **Prueba de funcionamiento — ataque bloqueado:**
 
@@ -267,7 +278,8 @@ http://192.168.32.3/?id=1' OR '1'='1
 
 FortiGate interceptó la solicitud y presentó su página nativa de bloqueo de Web Application Firewall, confirmando que la transferencia fue detenida por firma (Event ID 30000040, Event Type: signature).
 
-![Figura 23. Intento de inyección SQL bloqueado por el perfil WAF-Servidor-Web (Event ID 30000040, Event Type: signature).](images/23-waf-sqli-bloqueado.png)
+ <img width="704" height="622" alt="image" src="https://github.com/user-attachments/assets/3256b998-481b-4b67-8deb-ee024bb13ad3" />
+
 
 Esta prueba, en conjunto con la anterior, demuestra que el perfil `WAF-Servidor-Web` está correctamente activo: permite el tráfico HTTP legítimo sin interferir, y al mismo tiempo detecta y bloquea patrones de ataque conocidos como SQL Injection.
 
@@ -279,11 +291,13 @@ Como validación adicional del correcto funcionamiento de la ruta por defecto y 
 
 **Ping hacia el gateway de la LAN de usuarios (192.168.13.2):** exitoso, 0% de pérdida.
 
-![Figura 24. Ping exitoso hacia el gateway de la LAN de usuarios.](images/24-ping-gateway.png)
+ <img width="631" height="392" alt="image" src="https://github.com/user-attachments/assets/f72a43b1-fb5f-4262-bbb6-a87d8a2c9d59" />
+
 
 **Ping hacia un servidor DNS público de Internet (8.8.8.8):** exitoso, 0% de pérdida.
 
-![Figura 25. Ping exitoso hacia Internet.](images/25-ping-internet.png)
+ <img width="659" height="390" alt="image" src="https://github.com/user-attachments/assets/d5f47e51-d414-4805-b827-aedf309d370a" />
+
 
 Ambas pruebas confirman conectividad local (hacia el FortiGate) y conectividad externa (hacia Internet a través del NAT y la ruta por defecto configurada), validando el correcto funcionamiento de la infraestructura de red implementada.
 
@@ -318,6 +332,4 @@ La configuración realizada demuestra un enfoque de seguridad en capas (*defense
 
 Cabe destacar que, durante las pruebas, el bloqueo de llamadas de WhatsApp no pudo confirmarse de forma consistente pese a estar correctamente configurado, lo cual evidencia una limitación real del motor de Application Control frente a tráfico cifrado y multiplexado de aplicaciones de mensajería modernas — un hallazgo que en sí mismo forma parte del aprendizaje práctico de esta implementación.
 
----
 
-*Documento elaborado como parte de la Asignación 2 — Configuración de FortiGate — Henry Vicente Quezada, matrícula 2025-1332.*
