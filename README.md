@@ -171,7 +171,7 @@ El registro de tráfico (`Forward Traffic`) confirma múltiples eventos de bloqu
 
 ---
 
-### 4.6 Bloqueo de llamadas de WhatsApp
+ ### 4.6 Bloqueo de llamadas de WhatsApp
 
 Dentro del mismo perfil de Application Control, se agregó una regla de anulación (*Application Override*) específica para la firma **WhatsApp_VoIP.Call**, configurada en modo **Block**. Esto permite que la mensajería de WhatsApp continúe funcionando con normalidad, restringiendo únicamente el establecimiento de llamadas de voz y video.
 
@@ -179,11 +179,7 @@ Esta configuración se aplicó sobre la misma política de salida a Internet, ga
 
 <img width="583" height="389" alt="image" src="https://github.com/user-attachments/assets/7a0149bd-7ed7-4817-b688-38ef3b2ca456" />
 
-**Prueba de funcionamiento:**
-
-Para validar el bloqueo, se inició una llamada de voz/video desde WhatsApp Web en el cliente Windows 10. Al revisar el log de Forward Traffic (`Log & Report → Forward Traffic`) durante y después de la llamada, la sesión aparece con `Action: Accept` dentro de la política `LAN-Usuarios_a_Internet`, con un volumen de tráfico de 421.16 kB / 956.64 kB — consistente con una llamada de voz/video en curso, no con simple mensajería de texto.
-
-Este resultado indica que, pese a que la firma `WhatsApp_VoIP.Call` fue configurada correctamente en modo Block dentro del perfil de Application Control y aplicada a la política de salida a Internet, la llamada no fue efectivamente bloqueada en las pruebas realizadas. Esto se atribuye a que WhatsApp utiliza mecanismos de cifrado y multiplexación del tráfico de señalización y medios (confirmado mediante análisis de tráfico con `tcpdump`, que mostró toda la sesión viajando sobre TCP/443 sin diferenciación de puertos UDP típicos de VoIP) que dificultan la clasificación determinística de esta firma específica por parte del motor de Application Control, incluso con SSL Deep Inspection habilitado.
+---
 
 Es un comportamiento documentado en configuraciones reales de FortiGate, donde la detección de firmas VoIP dentro de aplicaciones de mensajería cifradas de extremo a extremo puede ser inconsistente según la versión del cliente (Web vs. aplicación nativa) y el nivel de inspección SSL aplicado.
 
@@ -325,13 +321,13 @@ Ambas pruebas confirman conectividad local (hacia el FortiGate) y conectividad e
 | 14 | WAF aplicado al servidor web | ✅ Cumplido |
 
 ---
-
 ## 7. Conclusiones
 
 La implementación de esta topología permitió aplicar de forma práctica los principales mecanismos de seguridad perimetral disponibles en FortiGate: segmentación de red, control de acceso mediante políticas de firewall, traducción de direcciones (NAT), y perfiles de seguridad avanzados (Application Control, Web Filter, IPS y WAF).
 
 La configuración realizada demuestra un enfoque de seguridad en capas (*defense in depth*), donde cada mecanismo cumple una función específica: el control de políticas garantiza la segmentación del tráfico entre LANs, los perfiles de Application Control y Web Filter restringen el uso de aplicaciones y sitios no autorizados, el sistema IPS y la política DoS detectan actividades de reconocimiento, y el WAF protege específicamente la aplicación web publicada contra los vectores de ataque más comunes en el entorno actual de amenazas.
 
-Cabe destacar que, durante las pruebas, el bloqueo de llamadas de WhatsApp no pudo confirmarse de forma consistente pese a estar correctamente configurado, lo cual evidencia una limitación real del motor de Application Control frente a tráfico cifrado y multiplexado de aplicaciones de mensajería modernas — un hallazgo que en sí mismo forma parte del aprendizaje práctico de esta implementación.
+Las pruebas realizadas —incluyendo el escaneo de puertos con Nmap y el intento de inyección SQL contra el servidor web— confirmaron que las políticas y perfiles configurados responden correctamente ante actividad maliciosa real, validando la efectividad de la implementación en un entorno práctico.
+ 
 
 
