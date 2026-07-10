@@ -158,6 +158,8 @@ Al intentar acceder desde el navegador del cliente a Facebook e Instagram, la co
 
  <img width="714" height="671" alt="image" src="https://github.com/user-attachments/assets/ba49e390-84a9-4002-98fb-d06f98e1a641" />
 
+ ---
+
  <img width="681" height="624" alt="image" src="https://github.com/user-attachments/assets/355768dc-bde0-41b4-838e-d8095553316f" />
 
 
