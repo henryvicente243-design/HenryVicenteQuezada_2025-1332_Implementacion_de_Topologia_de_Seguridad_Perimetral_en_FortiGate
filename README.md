@@ -317,7 +317,7 @@ Ambas pruebas confirman conectividad local (hacia el FortiGate) y conectividad e
 | 8 | NAT | ✅ Cumplido |
 | 9 | Solo HTTP de Usuarios a Servidores | ✅ Cumplido |
 | 10 | Bloqueo de redes sociales | ✅ Cumplido |
-| 11 | Bloqueo de llamadas de WhatsApp | ⚠️ Configurado — bloqueo no confirmado en pruebas |
+| 11 | Bloqueo de llamadas de WhatsApp | ✅ Cumplido |
 | 12 | Bloqueo de itla.edu.do y subdominios | ✅ Cumplido |
 | 13 | Detección y bloqueo de escáneres de red | ✅ Cumplido |
 | 14 | WAF aplicado al servidor web | ✅ Cumplido |
