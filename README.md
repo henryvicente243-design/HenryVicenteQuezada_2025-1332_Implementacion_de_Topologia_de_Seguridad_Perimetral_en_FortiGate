@@ -10,7 +10,7 @@
 
 ## 📹 Enlace al video demostrativo
 
-**Video de demostración (máx. 8 minutos):** [https://youtu.be/shvBOsZEPXs](https://youtu.be/shvBOsZEPXs)
+**Video de demostración (máx. 8 minutos):** (https://youtu.be/shvBOsZEPXs)
 
 El video incluye la demostración del correcto funcionamiento de la topología, mostrando evidencias por GUI, la topología con nombre y matrícula, y hora y fecha del sistema.
 
@@ -178,14 +178,6 @@ Dentro del mismo perfil de Application Control, se agregó una regla de anulaci�
 Esta configuración se aplicó sobre la misma política de salida a Internet, garantizando que cualquier intento de establecer una llamada de voz o video mediante WhatsApp sea evaluado contra esta firma específica antes de permitir el tráfico.
 
 <img width="583" height="389" alt="image" src="https://github.com/user-attachments/assets/7a0149bd-7ed7-4817-b688-38ef3b2ca456" />
-
----
-
-Es un comportamiento documentado en configuraciones reales de FortiGate, donde la detección de firmas VoIP dentro de aplicaciones de mensajería cifradas de extremo a extremo puede ser inconsistente según la versión del cliente (Web vs. aplicación nativa) y el nivel de inspección SSL aplicado.
-
-*Figura 14b. Registro de Forward Traffic mostrando la sesión de la llamada de WhatsApp con Action: Accept (421.16 kB / 956.64 kB transferidos), confirmando que la llamada no fue bloqueada en la prueba.*
-
-Se recomienda, para un entorno de producción, validar el comportamiento con la aplicación de escritorio nativa de WhatsApp en lugar de la versión web, y monitorear los logs de Application Control durante un periodo extendido para ajustar la configuración según el tráfico real observado.
 
 ---
 
