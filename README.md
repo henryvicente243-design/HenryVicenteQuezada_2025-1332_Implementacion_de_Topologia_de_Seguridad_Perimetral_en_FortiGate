@@ -10,7 +10,7 @@
 
 ## 📹 Enlace al video demostrativo
 
-**Video de demostración (máx. 8 minutos):** (https://youtu.be/shvBOsZEPXs)
+**Video de demostración (máx. 8 minutos):** (https://youtu.be/TdFOMXfXHqE)
 
 El video incluye la demostración del correcto funcionamiento de la topología, mostrando evidencias por GUI, la topología con nombre y matrícula, y hora y fecha del sistema.
 
@@ -179,7 +179,7 @@ Esta configuración se aplicó sobre la misma política de salida a Internet, ga
 
 <img width="583" height="389" alt="image" src="https://github.com/user-attachments/assets/7a0149bd-7ed7-4817-b688-38ef3b2ca456" />
 
-**funcionamiento:**
+**Funcionamiento:**
 
 Log de Forward Traffic: la sesión correspondiente a la llamada se registró con Action: BLOCK
 Log de Application Control: se detectó la firma WhatsApp_VoIP.Call con Action: Blocked
