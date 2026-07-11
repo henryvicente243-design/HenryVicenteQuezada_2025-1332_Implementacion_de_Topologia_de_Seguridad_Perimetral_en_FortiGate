@@ -179,6 +179,14 @@ Esta configuración se aplicó sobre la misma política de salida a Internet, ga
 
 <img width="583" height="389" alt="image" src="https://github.com/user-attachments/assets/7a0149bd-7ed7-4817-b688-38ef3b2ca456" />
 
+**funcionamiento:**
+
+Log de Forward Traffic: la sesión correspondiente a la llamada se registró con Action: BLOCK
+Log de Application Control: se detectó la firma WhatsApp_VoIP.Call con Action: Blocked
+Comportamiento observado: la llamada no logró establecerse, quedando bloqueada antes de iniciar la comunicación de voz/video
+
+El bloqueo de llamadas de voz/video de WhatsApp se validó correctamente tras habilitar SSL Deep Inspection con el certificado de CA confiado en el endpoint, lo que permitió al motor de Application Control identificar y bloquear el flujo de tráfico VoIP cifrado antes de su establecimiento.
+
 ---
 
 ### 4.7 Bloqueo de itla.edu.do y subdominios
